@@ -1,0 +1,223 @@
+﻿<UserControl
+    x:Class="Shared_Themes.Views.ThemeDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Shared_Themes.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    mc:Ignorable="d"
+    KeyDown="UserControl_KeyDown"
+    Background="#FFAA0404"
+    d:DesignHeight="550"
+    RequestedTheme="Light"
+    d:DesignWidth="800">
+
+    <Grid Padding="0"
+          Opacity="0.9"
+          Background="Transparent">
+
+        <controls:DropShadowPanel
+            BlurRadius="20"
+            ShadowOpacity="0.30"
+            OffsetX="0"
+            OffsetY="0"
+            Color="Black"
+            VerticalAlignment="Center"
+            HorizontalAlignment="Center"
+            IsMasked="True">
+
+            <Border Background="#A7A7A7"
+                    Height="550"
+                    Width="800"
+                    CornerRadius="7"
+                    BorderBrush="Black"
+                    BorderThickness="1">
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <StackPanel
+                        Grid.RowSpan="3"
+                        Background="DarkRed"
+                        Orientation="Vertical"
+                        VerticalAlignment="Stretch"
+                        HorizontalAlignment="Stretch">
+
+                        <Button
+                            x:Name="BtnBgColor"
+                            Click="BtnBgColor_OnClick"
+                            Margin="0 100 0 0"
+                            FontSize="20"
+                            FontWeight="Thin" 
+                            Foreground="AntiqueWhite"
+                            Background="Transparent"
+                            HorizontalContentAlignment="Left"
+                            HorizontalAlignment="Stretch"
+                            Content="Theme color" />
+
+                        <Button
+                            x:Name="BtnBgImage"
+                            Click="BtnBgImage_OnClick"
+                            Margin="0 1 0 0"
+                            FontSize="20"
+                            FontWeight="Thin"
+                            Foreground="AntiqueWhite"
+                            Background="Transparent"
+                            HorizontalContentAlignment="Left"
+                            HorizontalAlignment="Stretch"
+                            Content="Background Image" />
+
+                        <Button
+                            x:Name="BtnFontSize"
+                            Margin="0 1 0 0"
+                            FontSize="20"
+                            FontWeight="Thin"
+                            Foreground="AntiqueWhite"
+                            Background="Transparent"
+                            HorizontalContentAlignment="Left"
+                            HorizontalAlignment="Stretch"
+                            Content="Font size" />
+
+                        <Image x:Name="ImgOldPreview"
+                               Height="120"
+                               HorizontalAlignment="Stretch"
+                               VerticalAlignment="Bottom" />
+                        
+
+                    </StackPanel>
+
+
+                    <Grid Grid.Column="1"
+                          Grid.Row="0">
+
+                        <GridView x:Name="LstThemeColors"
+                                  Margin="20"
+                                  HorizontalAlignment="Stretch"
+                                  SelectionChanged="LstThemeColors_OnSelectionChanged"
+                                  ItemsSource="{Binding AllThemesList,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+
+                            <GridView.ItemTemplate>
+                                <DataTemplate>
+
+                                    <Grid Padding="5"
+                                          Background="Transparent"
+                                          HorizontalAlignment="Stretch">
+
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <Ellipse   Grid.Column="0" 
+                                                       Height="70" Width="70" 
+                                                       HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center" Margin="5">
+
+                                            <Ellipse.Fill>
+                                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                                    <LinearGradientBrush.RelativeTransform>
+                                                        <CompositeTransform CenterY="0.5" CenterX="0.5" TranslateY="0" Rotation="90"/>
+                                                    </LinearGradientBrush.RelativeTransform>
+                                                    <GradientStop Color="{Binding Color2}" Offset="0.5"/>
+                                                    <GradientStop Color="{Binding Color1}" Offset="0.5"/>
+                                                </LinearGradientBrush>
+                                            </Ellipse.Fill>
+
+                                        </Ellipse>
+
+
+                                    </Grid>
+
+                                </DataTemplate>
+                            </GridView.ItemTemplate>
+                        </GridView>
+
+
+                        <Grid 
+                            x:Name="GrdBackImages"
+                            VerticalAlignment="Stretch"
+                            HorizontalAlignment="Stretch">
+
+                            <GridView x:Name="LstBackImages" 
+                                      Margin="20" 
+                                      SelectionChanged="LstBackImages_OnSelectionChanged"
+                                      VerticalAlignment="Stretch"
+                                      HorizontalAlignment="Stretch">
+                                <GridView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid Padding="5">
+                                            <Image Height="80" 
+                                                   Width="110" 
+                                                   Margin="3"
+                                                   Stretch="Fill" 
+                                                   Source="{Binding ImageUri}" />
+                                        </Grid>
+                                    </DataTemplate>
+                                </GridView.ItemTemplate>
+                            </GridView>
+
+                        </Grid>
+
+                    </Grid>
+
+                    <StackPanel Grid.Row="1"
+                                Grid.Column="1"
+                                Margin="20 5"
+                                VerticalAlignment="Stretch" 
+                                HorizontalAlignment="Stretch">
+
+                        <TextBlock 
+                            FontSize="18"
+                            Margin="0 0 0 5"
+                            Text="Background Image Transparency"/>
+
+                        <Slider x:Name="SliderImageOpacity"
+                                Height="25"
+                                Minimum="0"
+                                ValueChanged="SliderImageOpacity_OnValueChanged"
+                                StepFrequency="0.01"
+                                Value="0.5"
+                                Maximum="1"/>
+                    </StackPanel>
+
+                    <StackPanel 
+                        Margin="0"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Bottom" 
+                        Grid.Column="1" 
+                        Grid.Row="2" 
+                        Orientation="Horizontal">
+
+                    <Button x:Name="BtnCancel"
+                            Content="Cancel"
+                            FontSize="20"
+                            Margin="10"
+                            Click="BtnCancel_OnClick"
+                            Padding="60 10"
+                            Foreground="AntiqueWhite"
+                            Background="DarkRed" />
+
+                        <Button x:Name="BtnClose"
+                            Content="Apply"
+                            FontSize="20"
+                            Margin="0 10 10 10"
+                            Click="BtnClose_OnClick"
+                            Padding="60 10"
+                            Foreground="AntiqueWhite"
+                            Background="DarkRed" />
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+        </controls:DropShadowPanel>
+    </Grid>
+</UserControl>
